@@ -1,32 +1,35 @@
 import string
 from string import ascii_lowercase
+from stats import get_num_words
+import sys
 
 
 def main():
-    book_path = "books/frankenstein.txt"
+    if len(sys.argv) != 2 :
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    book_path = sys.argv[1]
     text = get_book_text(book_path)
-    w_count = word_count(text)
+    w_count = get_num_words(text)
     c_count = char_count(text)
     c_count_list = char_dict_to_list(c_count)
     c_count_list.sort(reverse=True, key=sort_character)
-    print(f"--- Begin report of {book_path} ---")
-    print(f"{w_count} word found in the document")
-    print("")
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_path}...")
+    print("----------- Word Count ----------")
+    print(f"Found {w_count} total words")
+    print("--------- Character Count -------")
     for item in c_count_list:
-        print(f"The '{item['character']}' character was found '{item['count']}' times")
-    print("--- End report ---")
+        print(f"{item['character']}: {item['count']}")
+    print("============= END ===============")
     
 
 def new_func():
     return type
 
-
 def get_book_text(path):
     with open(path) as f:
         return f.read()
-
-def word_count(text):
-    return len(text.split())
 
 def char_count(text):
     lowered = text.lower()
